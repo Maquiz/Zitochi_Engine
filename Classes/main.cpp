@@ -11,9 +11,11 @@
 using namespace std;
 
 
-const int mapYInt =20;
-const int mapXInt =10;
+const int mapYInt =39;
+const int mapXInt =24;
 int mapXY [mapXInt][mapYInt];//map width
+int PlayerSpawnX = mapXInt-2;
+int PlayerSpawnY = 0;
 
 
 //Player Class
@@ -35,8 +37,8 @@ private:
     int m_Health;
     int m_MaxHealth = m_Health;
     int m_AttackStat;
-    int PlayerX;
-    int PlayerY;
+    int PlayerX = mapXInt-2;
+    int PlayerY = 0;
     int playerDir = 1;
 };
 
@@ -190,7 +192,7 @@ void Dragon::Greet() const{
 void makeMap(int x[mapXInt] [mapYInt]){
     for(int z = 0; z<mapXInt ;z++){
         for(int xz = 0; xz<mapYInt;xz++){
-            if(z==9){
+            if(z==mapXInt-1){
                 mapXY[z][xz] = 1;
             }
            /* if((xz%2)==0){
@@ -211,7 +213,7 @@ void drawMap(int x[mapXInt] [mapYInt]){
             cout<<mapXY[z][xz]<<" ";
         }
     }
-    cout<<endl<<endl<<endl;
+    cout<<endl;
 }
 
 void updateFunction(){//needs to be fixed
@@ -252,6 +254,8 @@ int main()
     pSamurai->GainHealth(10);
     pSamurai->DisplayInfo();
     makeMap(mapXY);
+    drawMap(mapXY);
+    mapXY[PlayerSpawnX][PlayerSpawnY] = 3;
     drawMap(mapXY);
 /*
     bool loopBool = true;
@@ -306,6 +310,16 @@ int main()
                     if(pSamurai->checkPlayerDir() == 0){
                         pSamurai->switchPlayerDir();
                         pSamurai->displayPlayerDir();
+                    }else if(mapXY[PlayerSpawnX][PlayerSpawnY+1] == 0){
+                        //cout<<"its a zero!"<<endl;
+                        mapXY[PlayerSpawnX][PlayerSpawnY+1] = 3;
+                        mapXY[PlayerSpawnX][PlayerSpawnY] =0;
+                        drawMap(mapXY);
+                    }else{
+                        //cout<<"its a zero!"<<endl;
+                        mapXY[PlayerSpawnX][PlayerSpawnY+1] = 3;
+                        mapXY[PlayerSpawnX][PlayerSpawnY] =0;
+                        drawMap(mapXY);
                     }
                            //Do something
                 break;
